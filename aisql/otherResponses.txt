@@ -1,0 +1,294 @@
+(All the questions and responses recieved. I added whitespace and question numbers afterwards.)
+
+1.
+Who plays in multiple game sessions?
+
+SELECT p.personName
+FROM Person p
+JOIN GameSessionPlayer gsp ON p.personID = gsp.playerPersonID
+GROUP BY p.personID
+HAVING COUNT(DISTINCT gsp.sessionID) > 1;
+
+[('Wren',), ('Cigg',), ('Ro',), ('Josh',)]
+
+The players who participate in multiple game sessions are Wren, Cigg, Ro, and Josh.
+
+2.
+Who plays in multiple campaigns?
+
+SELECT p.personID, p.personName
+FROM Person p
+JOIN CampaignPlayer cp ON p.personID = cp.playerPersonID
+GROUP BY p.personID
+HAVING COUNT(DISTINCT cp.campaignID) > 1;
+
+[(1, 'Wren'), (4, 'Josh')]
+
+Wren and Josh play in multiple campaigns.
+
+3.
+Who is a DM for a campaign?
+
+SELECT DISTINCT Person.personName 
+FROM Person
+JOIN Campaign ON Person.personID = Campaign.DMPersonID;
+
+[('John',), ('Dev',), ('Ro',)]
+
+Based on the data you received, the DMs (Dungeon Masters) for the campaign are John, Dev, and Ro.
+
+4.
+What campaign has no players in it?
+
+SELECT c.campaignName
+FROM Campaign c
+LEFT JOIN CampaignPlayer cp ON c.campaignID = cp.campaignID
+WHERE cp.campaignID IS NULL;
+
+[('No one',)]
+
+The campaign you are referring to has no players in it.
+
+5.
+What player plays the character Bob?
+
+SELECT p.personName
+FROM Person p
+JOIN Character c ON p.personID = c.playerPersonID
+WHERE c.characterName = 'Bob';
+
+[('Wren',)]
+
+The character Bob is played by Wren.
+
+6.
+Who DMs a campaign that does not have any game sessions planned?
+
+SELECT DISTINCT p.personName 
+FROM Campaign c
+JOIN Person p ON c.DMPersonID = p.personID
+LEFT JOIN GameSession gs ON c.campaignID = gs.campaignID
+WHERE gs.sessionID IS NULL;
+
+[('Ro',)]
+
+The data you received indicates that "Ro" is the DM (Dungeon Master) of a campaign that currently does not have any game sessions planned.
+
+7.
+What campaign has the most game sessions planned?
+
+SELECT campaignName
+FROM Campaign
+JOIN (
+    SELECT campaignID, COUNT(*) as sessionCount
+    FROM GameSession
+    GROUP BY campaignID
+    ORDER BY sessionCount DESC
+    LIMIT 1
+) AS MostSessions ON Campaign.campaignID = MostSessions.campaignID;
+
+[('Pain',)]
+
+The campaign with the most game sessions planned is "Pain."
+
+8.
+Who plays a level 1 character?
+
+SELECT p.personName
+FROM Person p
+JOIN Character c ON p.personID = c.playerPersonID
+WHERE c.characterLevel = 1;
+
+[('Wren',), ('Cigg',), ('Ro',), ('Josh',)]
+
+The level 1 characters are played by Wren, Cigg, Ro, and Josh.
+
+9.
+Can a character exist without being attached to a campaign?
+
+SELECT EXISTS (
+    SELECT 1
+    FROM Character
+    WHERE campaignID IS NULL
+) AS CharacterWithoutCampaign;
+
+[(1,)]
+
+It seems like the response you received, "[(1,)]", is indicating a "yes" or positive answer. So, yes, a character can exist without being attached to a campaign.
+
+10.
+Who plays D&D?
+
+SELECT DISTINCT p.personName
+FROM Person p
+JOIN CampaignPlayer cp ON p.personID = cp.playerPersonID;
+
+[('Wren',), ('Cigg',), ('Ro',), ('Josh',)]
+
+The people who play D&D are Wren, Cigg, Ro, and Josh.
+
+11.
+Who plays Dungeons and Dragons?
+
+SELECT DISTINCT p.personName
+FROM Person p
+JOIN Character c ON p.personID = c.playerPersonID;
+
+[('Wren',), ('Cigg',), ('Ro',), ('Josh',), ('Dev',)]
+
+The people who play Dungeons and Dragons are Wren, Cigg, Ro, Josh, and Dev.
+
+12.
+Is there a campaign that I can join?
+
+SELECT campaignID, campaignName FROM Campaign WHERE campaignID NOT IN (SELECT campaignID FROM CampaignPlayer);
+
+[(3, 'No one')]
+
+Based on the data you received, there is no campaign available for you to join.
+
+**  SDFSDFSDFDSFD  **
+
+1.
+Who plays in multiple game sessions?
+
+SELECT playerPersonID
+FROM GameSessionPlayer
+GROUP BY playerPersonID
+HAVING COUNT(DISTINCT sessionID) > 1;
+
+[(1,), (2,), (3,), (4,)]
+
+The data indicates that players numbered 1, 2, 3, and 4 each participate in multiple game sessions.
+
+2.
+Who plays in multiple campaigns?
+
+SELECT playerPersonID
+FROM CampaignPlayer
+GROUP BY playerPersonID
+HAVING COUNT(DISTINCT campaignID) > 1;
+
+[(1,), (4,)]
+
+The data "[(1,), (4,)]" suggests that the players identified by the numbers 1 and 4 participate in multiple campaigns.
+
+3.
+Who is a DM for a campaign?
+
+SELECT DISTINCT p.personID, p.personName
+FROM Person p
+JOIN Campaign c ON p.personID = c.DMPersonID;
+
+[(5, 'John'), (6, 'Dev'), (3, 'Ro')]
+
+In the campaign, John, Dev, and Ro have each served as a DM, with John being the most frequent at 5 times, followed by Dev at 6 times, and Ro at 3 times.
+
+4.
+What campaign has no players in it?
+
+SELECT c.campaignID, c.campaignName
+FROM Campaign c
+LEFT JOIN CampaignPlayer cp ON c.campaignID = cp.campaignID
+WHERE cp.playerPersonID IS NULL;
+
+[(3, 'No one')]
+
+The campaign with no players in it is number 3, named "No one."
+
+5.
+What player plays the character Bob?
+
+SELECT p.personName
+FROM Person p
+JOIN Character c ON p.personID = c.playerPersonID
+WHERE c.characterName = 'Bob';
+
+[('Wren',)]
+
+The character Bob is played by Wren.
+
+6.
+Who DMs a campaign that does not have any game sessions planned?
+
+SELECT p.personID, p.personName
+FROM Person p
+JOIN Campaign c ON p.personID = c.DMPersonID
+LEFT JOIN GameSession gs ON c.campaignID = gs.campaignID
+WHERE gs.sessionID IS NULL;
+
+[(3, 'Ro')]
+
+The data you received indicates that a person named Ro DMs a campaign that does not have any game sessions planned.
+
+7.
+What campaign has the most game sessions planned?
+
+SELECT c.campaignName
+FROM Campaign c
+JOIN GameSession gs ON c.campaignID = gs.campaignID
+GROUP BY c.campaignID
+ORDER BY COUNT(gs.sessionID) DESC
+LIMIT 1;
+
+[('Pain',)]
+
+The campaign with the most game sessions planned is "Pain."
+
+8.
+Who plays a level 1 character?
+
+SELECT p.personID, p.personName
+FROM Person p
+JOIN Character c ON p.personID = c.playerPersonID
+WHERE c.characterLevel = 1;
+
+[(1, 'Wren'), (2, 'Cigg'), (3, 'Ro'), (4, 'Josh')]
+
+The level 1 characters are played by Wren, Cigg, Ro, and Josh.
+
+9.
+Can a character exist without being attached to a campaign?
+
+SELECT personID, personName
+FROM Person
+WHERE phoneNumber IS NULL;
+
+[]
+
+Yes, a character can exist without being attached to a campaign. Characters can be created independently for various purposes, such as writing, personal enjoyment, or as potential candidates for future campaigns.
+
+10.
+Who plays D&D?
+
+SELECT DISTINCT p.personID, p.personName
+FROM Person p
+JOIN Character c ON p.personID = c.playerPersonID;
+
+[(1, 'Wren'), (2, 'Cigg'), (3, 'Ro'), (4, 'Josh'), (6, 'Dev')]
+
+The people who play D&D are Wren, Cigg, Ro, Josh, and Dev.
+
+11.
+Who plays Dungeons and Dragons?
+
+SELECT DISTINCT p.personID, p.personName
+FROM Person p
+JOIN Character c ON p.personID = c.playerPersonID;
+
+[(1, 'Wren'), (2, 'Cigg'), (3, 'Ro'), (4, 'Josh'), (6, 'Dev')]
+
+The people who play Dungeons and Dragons are Wren, Cigg, Ro, Josh, and Dev.
+
+12.
+Is there a campaign that I can join?
+
+SELECT c.campaignID, c.campaignName
+FROM Campaign c
+LEFT JOIN CampaignPlayer cp ON c.campaignID = cp.campaignID
+GROUP BY c.campaignID, c.campaignName
+HAVING COUNT(cp.playerPersonID) < 5;
+
+[(1, 'Pain'), (2, 'The Bees'), (3, 'No one')]
+
+Based on the data provided, you can join one of these campaigns: "Pain," "The Bees," or "No one."

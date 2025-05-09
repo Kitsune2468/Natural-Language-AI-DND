@@ -24,7 +24,7 @@ create table Campaign (
 create table GameSession (
     sessionID integer primary key,
     campaignID integer not null,
-    DMPersonID integer not null,
+    startTime datetime not null,
     foreign key (campaignID) references Campaign (campaignID)
 );
 

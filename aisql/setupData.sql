@@ -12,7 +12,8 @@ INSERT INTO Character (characterID, characterName, playerPersonID, characterLeve
 (3, 'Brian', 2, 1, 1),
 (4, 'Bulldog', 3, 1, 1),
 (5, 'Bobby', 4, 5, 2),
-(6, 'Burt', 4, 1, 1);
+(6, 'Burt', 4, 1, 1),
+(7, 'Ghost', 6, 20, null);
 
 INSERT INTO Campaign (campaignID, campaignName, DMPersonID) VALUES
 (1, 'Pain', 5),
@@ -24,7 +25,7 @@ INSERT INTO GameSession (sessionID, campaignID, startTime) VALUES
 (2, 1, '2025-11-22 07:00:00'),
 (3, 2, '2026-01-22 07:00:00');
 
-INSERT INTO CampaignPlayer (sessionID, playerPersonID) VALUES
+INSERT INTO CampaignPlayer (campaignID, playerPersonID) VALUES
 (1, 1),
 (1, 2),
 (1, 3),
