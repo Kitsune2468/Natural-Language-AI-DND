@@ -47,7 +47,7 @@ NOT IN (SELECT campaignID FROM CampaignPlayer);
 **My Comments**: This one was SUPER interesting!!! I kind of did it on accident, by naming an empty campaign "No one." (Because it was empty.) The SQL response was *correct*, but was misunderstood by the AI and it gave the wrong response. 
 
 This response was with the zero shot strategy, but the interesting part is that the cross domain double shot got the same correct SQL response, but got the *right* friendly response: 'The campaign with no players in it is number 3, named "No one."'
-(It did mention the number 3 though, which was not neccessarily needed/wanted, but it didn't mention the number on future questions involving that particular campaign (Ex: Question 12))
+(It did mention the number 3 though, which was not necessarily needed/wanted, but it didn't mention the number on future questions involving that particular campaign (Ex: Question 12))
 
 
 
