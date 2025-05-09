@@ -64,7 +64,7 @@ def getChatGptResponse(content):
 commonSqlOnlyRequest = " Give a sqlite select statement that answers the question. Only respond with sqlite syntax, no explanations or comments."
 strategies = {
     "zero_shot": setupSqlScript + commonSqlOnlyRequest,
-    "single_domain_double_shot": (setupSqlScript +
+    "cross_domain_double_shot": (setupSqlScript +
                    " Who doesn't have a way for us to text them? " +
                    " \nSELECT p.person_id, p.name\nFROM person p\nLEFT JOIN phone ph ON p.person_id = ph.person_id AND ph.can_recieve_sms = 1\nWHERE ph.phone_id IS NULL;\n " +
                    commonSqlOnlyRequest)
