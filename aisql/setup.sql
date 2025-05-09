@@ -1,48 +1,45 @@
-create table person (
-    person_id integer primary key,
-    name varchar(20) not null
+create table Person (
+    personID integer primary key,
+    personName varchar(20) not null,
+    phoneNumber integer not null
 );
 
-create table phone (
-    phone_id integer primary key,
-    person_id integer not null,
-    area_code int not null,
-    number int not null,
-    can_recieve_sms tinyint not null,
-    foreign key (person_id) references person (person_id)
+create table Character (
+    characterID integer primary key,
+    characterName varchar(20) not null,
+    playerPersonID integer not null,
+    characterLevel integer not null,
+    campaignID int,
+    foreign key (playerPersonID) references Person (personID),
+    foreign key (campaignID) references Campaign (campaignID)
 );
 
-create table address (
-    address_id integer primary key,
-    person_id integer not null,
-    street varchar(50),
-    zip integer not null
+create table Campaign (
+    campaignID integer primary key,
+    campaignName varchar(20) not null,
+    DMPersonID integer not null,
+    foreign key (DMPersonID) references Person (personID)
 );
 
-create table zip (
-    zip integer primary key,
-    city varchar(35),
-    state_two_letter_code char(2)
+create table GameSession (
+    sessionID integer primary key,
+    campaignID integer not null,
+    DMPersonID integer not null,
+    foreign key (campaignID) references Campaign (campaignID)
 );
 
-create table dog (
-    dog_id integer primary key,
-    name varchar(35),
-    breed varchar(35),
-    birth_date date
+create table GameSessionPlayer (
+    sessionID integer not null,
+    playerPersonID integer not null,
+    foreign key (sessionID) references GameSession (sessionID),
+    foreign key (playerPersonID) references Person (personID),
+    primary key (sessionID, playerPersonID)
+);
+create table CampaignPlayer (
+    campaignID integer not null,
+    playerPersonID integer not null,
+    foreign key (campaignID) references Campaign (sessionID),
+    foreign key (playerPersonID) references Person (personID),
+    primary key (campaignID, playerPersonID)
 );
 
-create table award (
-    award_id integer primary key,
-    dog_id integer not null,
-    event_date date,
-    award_name varchar(25) not null,
-    foreign key (dog_id) references dog (dog_id)
-);
-
-create table person_dog (
-    dog_id integer,
-    person_id integer,
-    foreign key (dog_id) references dog (dog_id),
-    foreign key (person_id) references person (person_id)
-);

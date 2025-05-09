@@ -1,49 +1,45 @@
-INSERT INTO person (person_id, name) VALUES
-(1, 'Laura Stevenson'),
-(2, 'Bob Jones'),
-(3, 'Charlie Brown'),
-(4, 'Jimmy Hendricks'),
-(5, 'Sydney Smith'),
-(6, 'Jordan Malone');
+INSERT INTO Person (personID, personName, phoneNumber) VALUES
+(1, 'Wren', 1001001000),
+(2, 'Cigg', 2002002000),
+(3, 'Ro', 3003003000),
+(4, 'Josh', 4004004000),
+(5, 'John', 5005005000),
+(6, 'Dev', 6006006000);
 
-INSERT INTO phone (phone_id, person_id, area_code, number, can_recieve_sms) VALUES
-(1, 1, 123, 4567890, 1),
-(2, 2, 234, 5678901, 0),
-(3, 3, 345, 6789012, 1),
-(4, 3, 345, 6789013, 0);
+INSERT INTO Character (characterID, characterName, playerPersonID, characterLevel, campaignID) VALUES
+(1, 'Bob', 1, 1, 1),
+(2, 'Billy', 1, 5, 2),
+(3, 'Brian', 2, 1, 1),
+(4, 'Bulldog', 3, 1, 1),
+(5, 'Bobby', 4, 5, 2),
+(6, 'Burt', 4, 1, 1);
 
-INSERT INTO address (address_id, person_id, street, zip) VALUES
-(1, 1, '123 Maple Street', 10001),
-(2, 2, '456 Oak Road', 20002),
-(3, 3, '789 Pine Avenue', 30003),
-(4, 4, '119 3rd Street', 84604),
-(5, 5, '121 3rd Street', 84604),
-(6, 6, '123 3rd Street', 84604);
+INSERT INTO Campaign (campaignID, campaignName, DMPersonID) VALUES
+(1, 'Pain', 5),
+(2, 'The Bees', 6),
+(3, 'No one', 3);
 
-INSERT INTO zip (zip, city, state_two_letter_code) VALUES
-(10001, 'New York', 'NY'),
-(20002, 'Washington', 'DC'),
-(30003, 'Los Angeles', 'CA'),
-(84604, 'Provo', 'UT');
+INSERT INTO GameSession (sessionID, campaignID, startTime) VALUES
+(1, 1, '2025-11-15 07:00:00'),
+(2, 1, '2025-11-22 07:00:00'),
+(3, 2, '2026-01-22 07:00:00');
 
-INSERT INTO dog (dog_id, name, breed, birth_date) VALUES
-(1, 'Buddy', 'Golden Retriever', '2018-06-01'),
-(2, 'Max', 'Labrador Retriever', '2019-07-15'),
-(3, 'Bella', 'Poodle', '2017-08-30'),
-(4, 'Rufus', 'Collie', '2017-08-30'),
-(5, 'Rex', 'Corgi', '2017-08-30');
-
-INSERT INTO award (award_id, dog_id, event_date, award_name) VALUES
-(1, 1, '2021-09-20', 'Best in Show'),
-(2, 1, '2020-05-10', 'Top Agility'),
-(3, 3, '2021-11-05', 'Best Obedience');
-
-
-INSERT INTO person_dog (dog_id, person_id) VALUES
+INSERT INTO CampaignPlayer (sessionID, playerPersonID) VALUES
 (1, 1),
+(1, 2),
+(1, 3),
+(1, 4),
 (2, 1),
-(3, 2),
-(4, 5),
-(5, 5),
-(5, 1),
-(4, 1);
+(2, 4);
+
+INSERT INTO GameSessionPlayer (sessionID, playerPersonID) VALUES
+(1, 1),
+(1, 2),
+(1, 3),
+(1, 4),
+(2, 1),
+(2, 2),
+(2, 3),
+(2, 4),
+(3, 1),
+(3, 4);

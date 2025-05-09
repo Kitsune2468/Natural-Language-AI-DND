@@ -4,7 +4,7 @@ import os
 import sqlite3
 from time import time
 
-print("Running db_bot.py!")
+print("Starting...")
 
 fdir = os.path.dirname(__file__)
 def getPath(fname):
@@ -61,7 +61,7 @@ def getChatGptResponse(content):
 
 
 # strategies
-commonSqlOnlyRequest = " Give me a sqlite select statement that answers the question. Only respond with sqlite syntax. If there is an error do not expalin it!"
+commonSqlOnlyRequest = " Give a sqlite select statement that answers the question. Only respond with sqlite syntax, no explanations or comments."
 strategies = {
     "zero_shot": setupSqlScript + commonSqlOnlyRequest,
     "single_domain_double_shot": (setupSqlScript +
@@ -71,15 +71,18 @@ strategies = {
 }
 
 questions = [
-    "Which are the most awarded dogs?",
-    "Which dogs have multiple owners?",
-    "Which people have multiple dogs?",
-    "What are the top 3 cities represented?",
-    "What are the names and cities of the dogs who have awards?",
-    "Who has more than one phone number?",
-    "Who doesn't have a way for us to text them?",
-    "Will we have a problem texting any of the previous award winners?"
-    # "I need insert sql into my tables can you provide good unique data?"
+    "Who plays in multiple game sessions?",
+    "Who plays in multiple campaigns?",
+    "Who is a DM for a campaign?",
+    "What campaign has no players in it?",
+    "What player plays the character Bob?",
+    "Who DMs a campaign that does not have any game sessions planned?",
+    "What campaign has the most game sessions planned?",
+    "Who plays a level 1 character?",
+    "Can a character exist without being attached to a campaign?",
+    "Who plays D&D?",
+    "Who plays Dungeons and Dragons?",
+    "Is there a campaign that I can join?"
 ]
 
 def sanitizeForJustSql(value):
@@ -105,8 +108,7 @@ for strategy in strategies:
             print(sqlSyntaxResponse)
             queryRawResponse = str(runSql(sqlSyntaxResponse))
             print(queryRawResponse)
-            friendlyResultsPrompt = "I asked a question \"" + question +"\" and the response was \""+queryRawResponse+"\" Please, just give a concise response in a more friendly way? Please do not give any other suggests or chatter."
-            # betterFriendlyResultsPrompt = "I asked a question: \"" + question +"\" and I queried this database " + setupSqlScript + " with this query " + sqlSyntaxResponse + ". The query returned the results data: \""+queryRawResponse+"\". Could you concisely answer my question using the results data?"
+            friendlyResultsPrompt = "I asked this question, \"" + question +"\" and the data I recieved back was \""+queryRawResponse+"\" Can you this data to answer my question in concise and natural language? No suggestions or unrelated topics."
             friendlyResponse = getChatGptResponse(friendlyResultsPrompt)
             print(friendlyResponse)
         except Exception as err:
