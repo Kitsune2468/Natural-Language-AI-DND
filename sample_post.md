@@ -9,6 +9,7 @@ My project models data that would be used in an app to keep track of D&D campaig
 
 ## Question I thought it did well on
 
+
 **Question**: "Who plays a level 1 character?" (Question 8)
 
 **GPT SQL Response**:
@@ -27,8 +28,6 @@ WHERE c.characterLevel = 1;
 
 
 ## Question that it tripped up on
-It did the SQL part almost right, but didn't quite get the data back in a friendly way. I wanted to know that we wouldn't be able to text/SMS "Bob Jones" who is person id 2 in my database. It returned an id and then couldn't tell me what I wanted to know.
-
 
 
 **Question**: "What campaign has no players in it?" (Question 4)
@@ -49,6 +48,8 @@ NOT IN (SELECT campaignID FROM CampaignPlayer);
 
 This response was with the zero shot strategy, but the interesting part is that the cross domain double shot got the same correct SQL response, but got the *right* friendly response: 'The campaign with no players in it is number 3, named "No one."'
 (It did mention the number 3 though, which was not neccessarily needed/wanted, but it didn't mention the number on future questions involving that particular campaign (Ex: Question 12))
+
+
 
 ## Strategies
 I used both the zero shot and the cross domain double shot strategy. (I actually did this on accident, because I forgot to change the single domain double shot from Professor Reynolds' code template.) I ran all of my questions through both strategies, and have all the questions and responses recorded in otherResponses.txt.
